@@ -68,7 +68,6 @@ const MainLayout = () => {
         >
           <Menu
             mode="inline"
-            defaultSelectedKeys={["/dashboard"]}
             theme="light"
             style={{
               height: "100%",
@@ -97,7 +96,6 @@ const MainLayout = () => {
           </div>
         </Content>
       </Layout>
-      <Outlet />
     </>
   );
 };
