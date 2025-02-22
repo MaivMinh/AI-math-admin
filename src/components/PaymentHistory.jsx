@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useContext } from "react";
+import { AppContext } from "../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const PaymentHistory = () => {
-  return (
-    <div>Payment history</div>
-  )
-}
+  const { isAuthenticated } = useContext(AppContext);
+  const navigate = useNavigate();
+  
+  if (!isAuthenticated) {
+    navigate("/login");
+  }
 
-export default PaymentHistory
+  return <div>Payment history</div>;
+};
+
+export default PaymentHistory;

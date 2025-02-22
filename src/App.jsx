@@ -9,6 +9,7 @@ import ErrorManagement from "./components/ErrorManagement.jsx";
 import PaymentManagement from "./components/PaymentManagement.jsx";
 import PaymentHistory from "./components/PaymentHistory.jsx";
 import LessonManagement from "./components/LessonManagement.jsx";
+import NotFoundPage from "./components/NotFoundPage.jsx";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/payment-history" element={<PaymentHistory />} />
             <Route path="/lesson-management" element={<LessonManagement />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </AppContextProvider>

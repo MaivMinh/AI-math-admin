@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import userServices from "../services/userService.js";
 import { Spin, Input, Table } from "antd";
+import { AppContext } from "../context/AppContext.jsx";
+import { useNavigate } from "react-router-dom";
 const { Search } = Input;
 
 const UserManagement = () => {
@@ -8,6 +10,12 @@ const UserManagement = () => {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [filteredUsers, setFilteredUsers] = React.useState([]);
+  const {isAuthenticated} = useContext(AppContext);
+  const navigate = useNavigate();
+
+  if (!isAuthenticated) {
+    navigate("/login");
+  }
 
   const displayedUsers = React.useMemo(() => {
     return filteredUsers.length > 0 ? filteredUsers : users;

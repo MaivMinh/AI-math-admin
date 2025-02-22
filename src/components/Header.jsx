@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import header_logo from "../assets/images/header_logo.png";
 import { Badge, Button, Dropdown, Menu } from "antd";
 import { BellOutlined } from "@ant-design/icons";
 import temp_avatar from "../assets/images/temp_avatar.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const Header = () => {
+  const { logout } = useContext(AppContext);
+  const navigate = useNavigate();
+
   const [notifications, setNotifications] = React.useState([
     "Notification 1",
     "Notification 2",
@@ -22,13 +26,18 @@ const Header = () => {
     </Menu>
   );
 
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   const menuUser = (
     <Menu>
       <Menu.Item key="0">
         <Link to={`/profile`}>Profile</Link>
       </Menu.Item>
       <Menu.Item key="1">
-        <Link to={`/logout`}>Logout</Link>
+        <button className="cursor-pointer" onClick={handleLogout}>Logout</button>
       </Menu.Item>
       <Menu.Item key="2">
         <Link to={`/notifications`}>Notifications</Link>
