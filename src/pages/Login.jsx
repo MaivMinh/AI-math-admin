@@ -68,7 +68,7 @@ const Login = () => {
         >
           <Form.Item
             name="username"
-            rules={[{ required: true, message: "Please enter your username!" }]}
+            rules={[{ required: true, message: "Hãy nhập tên tài khoản!" }]}
             style={{ marginBottom: 24 }}
           >
             <Input
@@ -80,7 +80,7 @@ const Login = () => {
           </Form.Item>
           <Form.Item
             name="password"
-            rules={[{ required: true, message: "Please enter your password!" }]}
+            rules={[{ required: true, message: "Hãy nhập mật khẩu!" }]}
           >
             <Input.Password
               size="large"
