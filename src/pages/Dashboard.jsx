@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StatCard from "../components/Dashboard/StatCard";
-import SummaryBox from "../components/Dashboard/SummaryBox";
 import FilterDropdown from "../components/Dashboard/FilterDropdown";
 import { AppContext } from "../context/AppContext";
+import DetailStatistics from "../components/Dashboard/DetailStatistics";
 
 const summaryData = [
   { title: "Thống kê người dùng" },
@@ -73,7 +73,7 @@ const Dashboard = () => {
         {/* Thống kê chi tiết */}
         <div className="mt-6 space-y-4">
           {summaryData.map((summary, index) => (
-            <SummaryBox key={index} title={summary.title} />
+            <DetailStatistics key={index} title={summary.title} />
           ))}
         </div>
       </main>
