@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import userServices from "../services/userService.js";
+import userServices from "../../services/userService.js";
 import {
   Spin,
   Input,
@@ -10,7 +10,7 @@ import {
   Checkbox,
   message,
 } from "antd";
-import { AppContext } from "../context/AppContext.jsx";
+import { AppContext } from "../../context/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { DownOutlined, FilterOutlined } from "@ant-design/icons";
 const { Search } = Input;
@@ -25,9 +25,9 @@ const UserManagement = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
 
-  if (!isAuthenticated) {
-    navigate("/login");
-  }
+  // if (!isAuthenticated) {
+  //   navigate("/login");
+  // }
 
   const warning = () => {
     messageApi.open({
@@ -152,8 +152,8 @@ const UserManagement = () => {
         >
           <Form.Item name="status" label="Status">
             <Checkbox.Group>
-              <Checkbox value="active">Active</Checkbox>
-              <Checkbox value="inactive">Inactive</Checkbox>
+              <Checkbox value="active">Đang hoạt động</Checkbox>
+              <Checkbox value="inactive">Dừng hoạt động</Checkbox>
             </Checkbox.Group>
           </Form.Item>
           <Form.Item name="role" label="Role">

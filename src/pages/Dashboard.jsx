@@ -17,11 +17,11 @@ const Dashboard = () => {
   const [selectedFilter, setSelectedFilter] = useState("Theo tháng");
   console.log("Dashboard selectedFilter:", selectedFilter);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, navigate]);
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     navigate("/login");
+  //   }
+  // }, [isAuthenticated, navigate]);
 
   return (
     <div className="flex">

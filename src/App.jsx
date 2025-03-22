@@ -4,8 +4,8 @@ import { AppContextProvider } from "../src/context/AppContext.jsx";
 import Login from "./pages/Login.jsx";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
-import UserManagement from "./components/UserManagement.jsx"
-import ErrorManagement from "./components/ErrorManagement.jsx";
+import UserManagement from "./components/UserManagement/UserManagement.jsx"
+import ErrorManagement from "./components/ErrorManagement/ErrorManagement.jsx";
 import PaymentManagement from "./components/PaymentManagement.jsx";
 import PaymentHistory from "./components/PaymentHistory.jsx";
 import LessonManagement from "./components/LessonManagement.jsx";
