@@ -8,6 +8,7 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import FilterButton from "./FilterButton";
+import CustomTable from "../Common/CustomTable"
 
 const { Option } = Select;
 
@@ -153,7 +154,7 @@ const ErrorManagement = () => {
       </div>
 
       {/* Bảng dữ liệu */}
-      <Table
+      <CustomTable
         columns={columns}
         dataSource={filteredData}
         pagination={false}
