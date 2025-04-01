@@ -7,14 +7,34 @@ import {
   CheckCircleOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import FilterButton from "./FilterButton";
+import FilterButton from "../Common/FilterButton";
 import CustomTable from "../Common/CustomTable"
+import SearchBar from "../Common/SearchBar";
 
 const { Option } = Select;
 
 const ErrorManagement = () => {
   const [searchText, setSearchText] = useState("");
   const [filterStatus, setFilterStatus] = useState("Tất cả");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
+
+  const onSearch = (value) => {
+    const filtered = transactions.filter(
+      (tx) =>
+        tx.id.includes(value) ||
+        tx.userId.includes(value) ||
+        tx.account.includes(value)
+    );
+    setFilteredData(filtered);
+  };
+
+  const handleChange = (e) => {
+    if (e.target.value === "") {
+      setFilteredData([]);
+    }
+    setSearchTerm(e.target.value);
+  };
 
   // Dữ liệu mẫu (Có thể thay bằng API)
   const data = [
@@ -49,10 +69,10 @@ const ErrorManagement = () => {
   ];
 
   // Xử lý lọc dữ liệu
-  const filteredData =
-    filterStatus === "Tất cả"
-      ? data
-      : data.filter((item) => item.status === filterStatus);
+  // const filteredData =
+  //   filterStatus === "Tất cả"
+  //     ? data
+  //     : data.filter((item) => item.status === filterStatus);
 
   // Cấu trúc bảng
   const columns = [
@@ -60,7 +80,7 @@ const ErrorManagement = () => {
       title: "Mã lỗi",
       dataIndex: "code",
       key: "code",
-      width: "10%",
+      // width: "10%",
       align: "center",
       render: (text) => <span>{text}</span>,
     },
@@ -68,7 +88,7 @@ const ErrorManagement = () => {
       title: "Tên",
       dataIndex: "name",
       key: "name",
-      width: "35%",
+      // width: "35%",
       align: "center",
       render: (text) => <span className="text-left block">{text}</span>,
     },
@@ -76,7 +96,7 @@ const ErrorManagement = () => {
       title: "Ngày phát sinh",
       dataIndex: "date",
       key: "date",
-      width: "10%",
+      // width: "10%",
       align: "center",
       render: (text) => <span>{text}</span>,
     },
@@ -84,7 +104,7 @@ const ErrorManagement = () => {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      width: "10%",
+      // width: "10%",
       align: "center",
       render: (status) => (
         <span
@@ -101,7 +121,7 @@ const ErrorManagement = () => {
     {
       title: "Hành động",
       key: "actions",
-      width: "5%",
+      // width: "5%",
       align: "center",
       render: (_, record) => (
         <div className="flex gap-4">
@@ -129,28 +149,17 @@ const ErrorManagement = () => {
   return (
     <div className="border border-[#B2D235] p-4 rounded-lg shadow-md">
       {/* Ô tìm kiếm + Nút lọc */}
-      <div className="flex gap-4 mb-4 items-center">
-        <div className="relative w-full border border-[#B2D235] rounded-lg flex items-center px-3 py-2">
-          <Input
-            placeholder="Tìm kiếm theo tên lỗi..."
-            bordered={false}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            className="flex-1"
+      <div className="w-full grid grid-cols-10 gap-x-3 mb-4">
+        <div className="col-span-9">
+          <SearchBar
+            placeholder="Tìm kiếm theo mã giao dịch, tài khoản..."
+            onSearch={onSearch}
+            onChange={handleChange}
           />
-          <SearchOutlined className="text-[#85A900] cursor-pointer" />
         </div>
-
-        <FilterButton
-          onApplyFilter={(filters) => {
-            console.log("Lọc với bộ lọc:", filters);
-            // Xử lý lọc dữ liệu tại đây
-          }}
-          onClearFilter={() => {
-            console.log("Đã xóa bộ lọc");
-            // Reset dữ liệu về trạng thái ban đầu
-          }}
-        />
+        <div className="col-span-1">
+          <FilterButton/>
+        </div>
       </div>
 
       {/* Bảng dữ liệu */}
