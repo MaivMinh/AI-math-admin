@@ -8,7 +8,7 @@ import UserManagement from "./components/UserManagement/UserManagement.jsx"
 import ErrorManagement from "./components/ErrorManagement/ErrorManagement.jsx";
 import PaymentManagement from "./components/PaymentManagement/PaymentManagement.jsx";
 import PaymentHistory from "./components/PaymentHistory/PaymentHistory.jsx";
-import LessonManagement from "./components/LessonManagement.jsx";
+import LessonManagement from "./components/LessonManagement/LessonManagement.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
 
 function App() {
