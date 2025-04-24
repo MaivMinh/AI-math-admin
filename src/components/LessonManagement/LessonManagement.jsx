@@ -1,48 +1,64 @@
-import React from "react";
-import { useContext, useState } from "react";
-import { AppContext } from "../../context/AppContext";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import SearchBar from "../Common/SearchBar";
 import AddLessonButton from "./AddLessonButton";
-import { Menu } from "antd";
 import ClassSelectionButton from "./ClassSelectionButton";
 import Lesson from "./Lesson";
+import chapterService from "../../services/chapterService";
 
 const LessonManagement = () => {
-  // const { isAuthenticated } = useContext(AppContext);
-  const navigate = useNavigate();
-
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [chapters, setChapters] = useState([]);
+  const [selectedGrade, setSelectedGrade] = useState(1);
+
+  useEffect(() => {
+    const fetchChapters = async () => {
+      try {
+        const response = await chapterService.getChapterDetails();
+        setChapters(response.data);
+      } catch (error) {
+        console.error("Error fetching chapters:", error);
+      }
+    };
+
+    fetchChapters();
+  }, []);
+
+  // Filter chapters based on search term and organize by semester
+  const filteredAndOrganizedChapters = chapters
+    .filter(
+      (chapter) =>
+        chapter.grade === selectedGrade &&
+        chapter.chapterName.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .reduce((acc, chapter) => {
+      const semester = chapter.semester;
+      if (!acc[semester]) {
+        acc[semester] = [];
+      }
+      acc[semester].push(chapter);
+      return acc;
+    }, {});
 
   const onSearch = (value) => {
-    const filtered = transactions.filter(
-      (tx) =>
-        tx.id.includes(value) ||
-        tx.userId.includes(value) ||
-        tx.account.includes(value)
-    );
-    setFilteredData(filtered);
+    setSearchTerm(value);
   };
 
   const handleChange = (e) => {
-    if (e.target.value === "") {
-      setFilteredData([]);
-    }
     setSearchTerm(e.target.value);
   };
 
-  // if (!isAuthenticated) {
-  //   navigate("/login");
-  // }
-
   const classItems = [
-    { label: "Lớp 1", key: "class1" },
-    { label: "Lớp 2", key: "class2" },
-    { label: "Lớp 3", key: "class3" },
-    { label: "Lớp 4", key: "class4" },
-    { label: "Lớp 5", key: "class5" },
+    { label: "Lớp 1", key: "1" },
+    { label: "Lớp 2", key: "2" },
+    { label: "Lớp 3", key: "3" },
+    { label: "Lớp 4", key: "4" },
+    { label: "Lớp 5", key: "5" },
   ];
+
+  const handleGradeSelect = (grade) => {
+    console.log(grade);
+    setSelectedGrade(parseInt(grade));
+  };
 
   return (
     <div className="border border-[#B2D235] p-4 rounded-lg shadow-md">
@@ -56,15 +72,42 @@ const LessonManagement = () => {
           />
         </div>
         <div className="col-span-2">
-          <ClassSelectionButton items={classItems} />
+          <ClassSelectionButton
+            items={classItems}
+            onSelect={handleGradeSelect}
+          />
         </div>
         <div className="col-span-3">
           <AddLessonButton />
         </div>
       </div>
 
-      <div className="border w-full rounded-lg shadow-md gap-x-3 mb-4">
-        <Lesson chapterTitle={"Chương 1: Làm quen với một số hình"} />
+      {/* Display chapters organized by semester */}
+      <div className="space-y-6">
+        {Object.entries(filteredAndOrganizedChapters).map(
+          ([semester, semesterChapters]) => (
+            <div key={semester} className="space-y-4">
+              <h2 className="text-lg font-semibold text-[#B2D235]">
+                Học kì {semester}
+              </h2>
+              {semesterChapters.map((chapter) => (
+                <div
+                  key={`${chapter.grade}-${chapter.chapterOrder}`}
+                  className="border w-full rounded-lg shadow-md"
+                >
+                  <Lesson
+                    chapterTitle={`Chương ${chapter.chapterOrder}: ${chapter.chapterName}`}
+                    lessons={(chapter.lessons || []).map((lesson) => ({
+                      id: lesson.lessonOrder,
+                      name: lesson.lessonName,
+                      video: lesson.lessonContent,
+                    }))}
+                  />
+                </div>
+              ))}
+            </div>
+          )
+        )}
       </div>
     </div>
   );
