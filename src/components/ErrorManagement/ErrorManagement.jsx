@@ -20,23 +20,26 @@ const ErrorManagement = () => {
   const [filteredData, setFilteredData] = useState([]);
 
   const onSearch = (value) => {
-    const filtered = transactions.filter(
+    const filtered = data.filter(
       (tx) =>
-        tx.id.includes(value) ||
-        tx.userId.includes(value) ||
-        tx.account.includes(value)
+        tx.code.includes(value) ||
+        tx.name.includes(value) ||
+        tx.date.includes(value)
     );
     setFilteredData(filtered);
   };
 
   const handleChange = (e) => {
-    if (e.target.value === "") {
+    const value = e.target.value;
+    setSearchTerm(value);
+  
+    if (value === "") {
       setFilteredData([]);
+    } else {
+      onSearch(value);
     }
-    setSearchTerm(e.target.value);
-  };
+  };  
 
-  // Dữ liệu mẫu (Có thể thay bằng API)
   const data = [
     {
       key: "1",
@@ -146,6 +149,8 @@ const ErrorManagement = () => {
     },
   ];
 
+  const displayList = searchTerm !== "" ? filteredData : data;
+
   return (
     <div className="border border-[#B2D235] p-4 rounded-lg shadow-md">
       {/* Ô tìm kiếm + Nút lọc */}
@@ -165,7 +170,7 @@ const ErrorManagement = () => {
       {/* Bảng dữ liệu */}
       <CustomTable
         columns={columns}
-        dataSource={filteredData}
+        dataSource={displayList}
         pagination={false}
         bordered
         className="border-[#B2D235]"

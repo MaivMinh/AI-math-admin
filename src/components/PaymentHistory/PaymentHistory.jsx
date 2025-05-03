@@ -42,10 +42,14 @@ const PaymentHistory = () => {
   };
 
   const handleChange = (e) => {
-    if (e.target.value === "") {
+    const value = e.target.value;
+    setSearchTerm(value);
+  
+    if (value === "") {
       setFilteredData([]);
+    } else {
+      onSearch(value);
     }
-    setSearchTerm(e.target.value);
   };
 
   const displayList = filteredData.length > 0 ? filteredData : transactions;

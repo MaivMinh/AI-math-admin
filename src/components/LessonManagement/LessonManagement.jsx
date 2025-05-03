@@ -23,21 +23,28 @@ const LessonManagement = () => {
     fetchChapters();
   }, []);
 
-  // Filter chapters based on search term and organize by semester
   const filteredAndOrganizedChapters = chapters
-    .filter(
-      (chapter) =>
-        chapter.grade === selectedGrade &&
-        chapter.chapterName.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .reduce((acc, chapter) => {
-      const semester = chapter.semester;
-      if (!acc[semester]) {
-        acc[semester] = [];
-      }
-      acc[semester].push(chapter);
-      return acc;
-    }, {});
+  .filter((chapter) => {
+    if (chapter.grade !== selectedGrade) return false;
+
+    const lowerTerm = searchTerm.toLowerCase();
+
+    const matchChapter = chapter.chapterName.toLowerCase().includes(lowerTerm);
+    const matchLesson = (chapter.lessons || []).some((lesson) =>
+      lesson.lessonName.toLowerCase().includes(lowerTerm)
+    );
+
+    return matchChapter || matchLesson;
+  })
+  .reduce((acc, chapter) => {
+    const semester = chapter.semester;
+    if (!acc[semester]) {
+      acc[semester] = [];
+    }
+    acc[semester].push(chapter);
+    return acc;
+  }, {});
+
 
   const onSearch = (value) => {
     setSearchTerm(value);

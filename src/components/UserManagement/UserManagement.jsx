@@ -74,19 +74,19 @@ const UserManagement = () => {
         user.login.username.toLowerCase().includes(content.toLowerCase())
       );
     });
-    if (filtered.length === 0) {
-      warning();
-    } else if (filtered.length > 0) {
-      success(filtered.length);
-    }
+
     setFilteredUsers(filtered);
   };
 
   const handleChange = (e) => {
-    if (e.target.value === "") {
+    const value = e.target.value;
+    if (value === "") {
       setFilteredUsers(users);
+    } else {
+      onSearch(value);
     }
   };
+  
 
   const handleFilter = (values) => {
     console.log(values);
