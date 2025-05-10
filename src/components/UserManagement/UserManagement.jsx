@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import userServices from "../services/userService.js";
+import userServices from "../../services/userService.js";
 import {
   Spin,
   Input,
@@ -10,9 +10,12 @@ import {
   Checkbox,
   message,
 } from "antd";
-import { AppContext } from "../context/AppContext.jsx";
+import { AppContext } from "../../context/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { DownOutlined, FilterOutlined } from "@ant-design/icons";
+import SearchBar from "../Common/SearchBar.jsx";
+import FilterButton from "../Common/FilterButton.jsx";
+
 const { Search } = Input;
 
 const UserManagement = () => {
@@ -25,9 +28,9 @@ const UserManagement = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
 
-  if (!isAuthenticated) {
-    navigate("/login");
-  }
+  // if (!isAuthenticated) {
+  //   navigate("/login");
+  // }
 
   const warning = () => {
     messageApi.open({
@@ -71,19 +74,19 @@ const UserManagement = () => {
         user.login.username.toLowerCase().includes(content.toLowerCase())
       );
     });
-    if (filtered.length === 0) {
-      warning();
-    } else if (filtered.length > 0) {
-      success(filtered.length);
-    }
+
     setFilteredUsers(filtered);
   };
 
   const handleChange = (e) => {
-    if (e.target.value === "") {
+    const value = e.target.value;
+    if (value === "") {
       setFilteredUsers(users);
+    } else {
+      onSearch(value);
     }
   };
+  
 
   const handleFilter = (values) => {
     console.log(values);
@@ -152,8 +155,8 @@ const UserManagement = () => {
         >
           <Form.Item name="status" label="Status">
             <Checkbox.Group>
-              <Checkbox value="active">Active</Checkbox>
-              <Checkbox value="inactive">Inactive</Checkbox>
+              <Checkbox value="active">Đang hoạt động</Checkbox>
+              <Checkbox value="inactive">Dừng hoạt động</Checkbox>
             </Checkbox.Group>
           </Form.Item>
           <Form.Item name="role" label="Role">
@@ -174,7 +177,7 @@ const UserManagement = () => {
   ];
 
   return (
-    <div className="w-full h-full">
+    <div className="border border-[#B2D235] p-4 rounded-lg shadow-md">
       {contextHolder}
       {loading ? (
         <div className="text-center mt-10">
@@ -184,33 +187,14 @@ const UserManagement = () => {
         <div>
           <div className="w-full grid grid-cols-10 gap-x-3">
             <p className="col-span-9">
-              <Search
+              <SearchBar
                 placeholder="Tìm kiếm theo tên người dùng hoặc email..."
-                allowClear
-                style={{
-                  width: "100%",
-                }}
-                size="large"
                 onSearch={onSearch}
                 onChange={handleChange}
-                variant="underlined"
               />
             </p>
             <p className="col-span-1">
-              <Dropdown
-                menu={{
-                  items,
-                }}
-                placement="bottomLeft"
-                trigger={["click"]}
-              >
-                <Button size="large" style={{ width: "100%", height: "100%" }}>
-                  <span>Lọc</span>
-                  <p>
-                    <FilterOutlined />
-                  </p>
-                </Button>
-              </Dropdown>
+              <FilterButton items={items} />
             </p>
           </div>
           <div className="mt-5">

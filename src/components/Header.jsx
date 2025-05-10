@@ -33,15 +33,13 @@ const Header = () => {
 
   const menuUser = (
     <Menu>
-      <Menu.Item key="0">
-        <Link to={`/profile`}>Profile</Link>
+      <Menu.Item key="2">
+        <Link to={`/notifications`}>Tất cả thông báo</Link>
       </Menu.Item>
       <Menu.Item key="1">
-        <button className="cursor-pointer" onClick={handleLogout}>Logout</button>
+        <button className="cursor-pointer" onClick={handleLogout}>Đăng xuất</button>
       </Menu.Item>
-      <Menu.Item key="2">
-        <Link to={`/notifications`}>Notifications</Link>
-      </Menu.Item>
+  
     </Menu>
   );
 
